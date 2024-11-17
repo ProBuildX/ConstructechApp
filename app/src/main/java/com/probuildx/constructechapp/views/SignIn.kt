@@ -61,11 +61,12 @@ fun SignInScreen(navController: NavController, usersVm: UsersViewModel = viewMod
                 when {
                     isLoading -> println("loading")
                     errorMessage != null -> println("$errorMessage")
-                    user == null -> println("loading")
+                    user == null -> println("incorrect email")
                     else -> {
                         if (password == user?.password) {
                             navController.navigate("projects")
                         }
+                        else { println("incorrect password") }
                     }
                 }
             },
