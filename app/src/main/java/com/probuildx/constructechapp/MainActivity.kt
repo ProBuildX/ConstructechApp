@@ -12,6 +12,7 @@ import com.probuildx.constructechapp.views.NewProjectScreen
 import com.probuildx.constructechapp.views.ProjectDashboardScreen
 import com.probuildx.constructechapp.views.UserDashboardScreen
 import com.probuildx.constructechapp.views.SignInScreen
+import com.probuildx.constructechapp.views.SignUpScreen
 import com.probuildx.constructechapp.views.WorkersScreen
 
 
@@ -33,6 +34,7 @@ fun App() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "sign-in") {
         composable("sign-in") { SignInScreen(navController) }
+        composable("sign-up") { SignUpScreen(navController) }
         composable("user-dashboard/{id}") { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("id")?.toInt()
             userId?.let { UserDashboardScreen(navController, userId = it) }
