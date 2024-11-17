@@ -32,7 +32,7 @@ fun UserDashboardScreen(navController: NavController, userId: Int) {
         ProjectsList(navController = navController, userId = userId)
 
         Button(
-            onClick = { navController.navigate("new-project") },
+            onClick = { navController.navigate("new-project/$userId") },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("NEW PROJECT")

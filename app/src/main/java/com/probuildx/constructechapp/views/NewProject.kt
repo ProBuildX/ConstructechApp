@@ -17,7 +17,7 @@ import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 
 @Composable
-fun NewProjectScreen(navController: NavController, projectsVm: ProjectsViewModel = viewModel()) {
+fun NewProjectScreen(navController: NavController, userId: Int, projectsVm: ProjectsViewModel = viewModel()) {
 
     val formFields = mapOf(
         "Title" to remember { mutableStateOf("") },
@@ -46,11 +46,13 @@ fun NewProjectScreen(navController: NavController, projectsVm: ProjectsViewModel
             onClick = {
                 val newProject = Project(
                     title = formFields["Title"]?.value ?: "",
-                    description = formFields["Description"]?.value ?: "")
+                    description = formFields["Description"]?.value ?: "",
+                    userId = userId
+                )
 
                 projectsVm.create(newProject)
 
-                navController.navigate("projects")
+                navController.navigate("user-dashboard/${userId}")
             },
             modifier = Modifier.fillMaxWidth()
         ) {

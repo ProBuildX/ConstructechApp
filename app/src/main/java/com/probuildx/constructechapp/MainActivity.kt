@@ -37,7 +37,10 @@ fun App() {
             val userId = backStackEntry.arguments?.getString("id")?.toInt()
             userId?.let { UserDashboardScreen(navController, userId = it) }
         }
-        composable("new-project") { NewProjectScreen(navController) }
+        composable("new-project/{id}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("id")?.toInt()
+            userId?.let { NewProjectScreen(navController, userId = it) }
+        }
         composable("project-dashboard/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { ProjectDashboardScreen(navController, projectId = it) }
