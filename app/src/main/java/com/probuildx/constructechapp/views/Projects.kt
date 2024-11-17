@@ -22,7 +22,7 @@ import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.WorkersViewModel
 
 @Composable
-fun ProjectsScreen(navController: NavController, projectsVm: ProjectsViewModel = viewModel()) {
+fun ProjectsScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -49,7 +49,7 @@ fun ProjectsList(navController: NavController, userId: Int = 0, projectsVm: Proj
     val isLoading by projectsVm.isLoading.collectAsState()
     val errorMessage by projectsVm.errorMessage.collectAsState()
 
-    //LaunchedEffect(Unit) { projectsVm.getByProject(projectId) }
+    //LaunchedEffect(Unit) { projectsVm.getByUser(userId) }
 
     when {
         isLoading -> CircularProgressIndicator()
