@@ -23,8 +23,8 @@ object RetrofitClient {
             .build()
     }
 
-    val apiService: ProjectService by lazy {
-        retrofit.create(ProjectService::class.java)
+    val apiService: ProjectsService by lazy {
+        retrofit.create(ProjectsService::class.java)
     }
 
     val workersService: WorkersService by lazy {

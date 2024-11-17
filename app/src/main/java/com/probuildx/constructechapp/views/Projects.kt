@@ -15,14 +15,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.probuildx.constructechapp.viewmodels.ViewModel
+import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.probuildx.constructechapp.entities.Project
 
 @Composable
-fun ProjectsScreen(navController: NavController, viewModel: ViewModel = viewModel()) {
+fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel = viewModel()) {
 
-    val projects by viewModel.posts.collectAsState()
+    val projects by viewModel.projects.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 

@@ -23,7 +23,7 @@ class WorkersViewModel : ViewModel() {
     fun getByProject(projectId: Int) {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.apiService.getWorkers(projectId)
+                val response = RetrofitClient.workersService.getByProject(projectId)
                 _workers.value = response
             } catch (e: Exception) {
                 _errorMessage.value = "$e"
