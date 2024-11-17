@@ -21,6 +21,7 @@ import com.probuildx.constructechapp.views.HomeScreen
 import com.probuildx.constructechapp.views.NewProjectScreen
 import com.probuildx.constructechapp.views.ProjectDashboardScreen
 import com.probuildx.constructechapp.views.ProjectsScreen
+import com.probuildx.constructechapp.views.SignInScreen
 import com.probuildx.constructechapp.views.WorkersScreen
 
 
@@ -40,8 +41,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = "homes") {
-        composable("homes") { HomeScreen(navController) }
+    NavHost(navController, startDestination = "sign-in") {
+        composable("sign-in") { SignInScreen(navController) }
         composable("projects") { ProjectsScreen(navController) }
         composable("new-project") { NewProjectScreen(navController) }
         composable("project-dashboard/{id}") { backStackEntry ->
