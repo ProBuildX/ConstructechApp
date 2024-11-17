@@ -1,9 +1,7 @@
 package com.probuildx.constructechapp.views
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -43,17 +42,17 @@ fun WorkersScreen(navController: NavController, projectId: Int) {
 }
 
 @Composable
-fun WorkersList(navController: NavController, projectId: Int, workersVM: WorkersViewModel = viewModel()) {
+fun WorkersList(navController: NavController, projectId: Int, workersVm: WorkersViewModel = viewModel()) {
 
-    val workers by workersVM.workers.collectAsState()
-    val isLoading by workersVM.isLoading.collectAsState()
-    val errorMessage by workersVM.errorMessage.collectAsState()
+    val workers by workersVm.workers.collectAsState()
+    val isLoading by workersVm.isLoading.collectAsState()
+    val errorMessage by workersVm.errorMessage.collectAsState()
 
-    workersVM.getByProject(projectId)
+    LaunchedEffect(Unit) { workersVm.getByProject(projectId) }
 
     when {
         isLoading -> CircularProgressIndicator()
-        errorMessage != null -> Text("Error: $errorMessage")
+        errorMessage != null -> Text("$errorMessage")
         else -> {
             LazyColumn {
                 items(workers, key = { it.id!! }) { worker ->

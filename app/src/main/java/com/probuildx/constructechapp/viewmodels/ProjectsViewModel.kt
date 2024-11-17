@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.probuildx.constructechapp.services.RetrofitClient
 import com.probuildx.constructechapp.entities.Project
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -16,7 +17,7 @@ class ProjectsViewModel : ViewModel() {
     private val _project = MutableStateFlow<Project?>(null)
     val project: StateFlow<Project?> = _project
 
-    private val _isLoading = MutableStateFlow(true)
+    private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
     private val _errorMessage = MutableStateFlow<String?>(null)
@@ -27,39 +28,41 @@ class ProjectsViewModel : ViewModel() {
     }
 
     private fun getAll() {
+        _isLoading.value = true
         viewModelScope.launch {
+            delay(500)
             try {
-                val response = RetrofitClient.apiService.getAll()
+                val response = RetrofitClient.projectsService.getAll()
                 _projects.value = response
-            } catch (e: Exception) {
-                _errorMessage.value = "$e"
-            } finally {
-                _isLoading.value = false
             }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
         }
     }
 
-    fun get(id: Int) {
+    fun getById(id: Int) {
+        _isLoading.value = true
         viewModelScope.launch {
+            delay(500)
             try {
-                val response = RetrofitClient.apiService.get(id)
+                val response = RetrofitClient.projectsService.get(id)
                 _project.value = response
-            } catch (e: Exception) {
-                _errorMessage.value = "$e"
             }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
         }
     }
 
     fun create(project: Project) {
+        _isLoading.value = true
         viewModelScope.launch {
+            delay(500)
             try {
-                RetrofitClient.apiService.create(project)
+                RetrofitClient.projectsService.create(project)
                 getAll() // Refresh posts after creation
-            } catch (e: Exception) {
-                _errorMessage.value = "$e"
-            } finally {
-                _isLoading.value = false
             }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
         }
     }
 

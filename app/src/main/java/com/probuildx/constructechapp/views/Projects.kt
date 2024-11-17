@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,13 +19,10 @@ import androidx.navigation.NavController
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.probuildx.constructechapp.entities.Project
+import com.probuildx.constructechapp.viewmodels.WorkersViewModel
 
 @Composable
-fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel = viewModel()) {
-
-    val projects by viewModel.projects.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
+fun ProjectsScreen(navController: NavController, projectsVm: ProjectsViewModel = viewModel()) {
 
     Column(
         modifier = Modifier
@@ -32,17 +30,7 @@ fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel = 
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ){
-        when {
-            isLoading -> CircularProgressIndicator()
-            errorMessage != null -> Text("Error: $errorMessage")
-            else -> {
-                LazyColumn {
-                    items(projects, key = { it.id!! }) { project ->
-                        ProjectCard(navController = navController, project = project)
-                    }
-                }
-            }
-        }
+        ProjectsList(navController = navController)
 
         Button(
             onClick = { navController.navigate("new-project") },
@@ -51,6 +39,30 @@ fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel = 
             Text("NEW PROJECT")
         }
     }
+
+}
+
+@Composable
+fun ProjectsList(navController: NavController, userId: Int = 0, projectsVm: ProjectsViewModel = viewModel()) {
+
+    val projects by projectsVm.projects.collectAsState()
+    val isLoading by projectsVm.isLoading.collectAsState()
+    val errorMessage by projectsVm.errorMessage.collectAsState()
+
+    //LaunchedEffect(Unit) { projectsVm.getByProject(projectId) }
+
+    when {
+        isLoading -> CircularProgressIndicator()
+        errorMessage != null -> Text("$errorMessage")
+        else -> {
+            LazyColumn {
+                items(projects, key = { it.id!! }) { project ->
+                    ProjectCard(navController = navController, project = project)
+                }
+            }
+        }
+    }
+
 
 }
 

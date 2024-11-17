@@ -19,4 +19,5 @@ interface WorkersService {
 
     @GET("projects/{id}/workers")
     suspend fun getByProject(@Path("id") id: Int): List<Worker>
+
 }

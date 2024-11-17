@@ -7,10 +7,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,65 +17,41 @@ import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 
 @Composable
-fun NewProjectScreen(navController: NavController, viewModel: ProjectsViewModel = viewModel()) {
+fun NewProjectScreen(navController: NavController, projectsVm: ProjectsViewModel = viewModel()) {
 
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var address by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("") }
-    var budget by remember { mutableStateOf("") }
+    val formFields = mapOf(
+        "Title" to remember { mutableStateOf("") },
+        "Description" to remember { mutableStateOf("") },
+        "Address" to remember { mutableStateOf("") },
+        "Date" to remember { mutableStateOf("") },
+        "Budget" to remember { mutableStateOf("") }
+    )
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ){
-        TextField(
-            value = title,
-            onValueChange = { title = it },
-            label = { Text("Title") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        TextField(
-            value = description,
-            onValueChange = { description = it },
-            label = { Text("Description") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        TextField(
-            value = address,
-            onValueChange = { address = it },
-            label = { Text("Address") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        TextField(
-            value = date,
-            onValueChange = { date = it },
-            label = { Text("Date") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        TextField(
-            value = budget,
-            onValueChange = { budget = it },
-            label = { Text("Budget") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
+        formFields.forEach { (label, state) ->
+            TextField(
+                value = state.value,
+                onValueChange = { state.value = it },
+                label = { Text(label) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         Button(
             onClick = {
-                val newProject = Project(title = title, description = description)
-                viewModel.create(newProject)
+                val newProject = Project(
+                    title = formFields["Title"]?.value ?: "",
+                    description = formFields["Description"]?.value ?: "")
 
-                navController.navigate("projects") },
+                projectsVm.create(newProject)
+
+                navController.navigate("projects")
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("SAVE")
@@ -85,3 +59,4 @@ fun NewProjectScreen(navController: NavController, viewModel: ProjectsViewModel 
     }
 
 }
+

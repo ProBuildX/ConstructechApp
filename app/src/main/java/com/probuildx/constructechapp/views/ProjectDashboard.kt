@@ -22,7 +22,7 @@ fun ProjectDashboardScreen(navController: NavController, projectId: Int, viewMod
     val project by viewModel.project.collectAsState()
 
     //LaunchedEffect(projectId) { viewModel.get(projectId) }
-    viewModel.get(projectId)
+    viewModel.getById(projectId)
 
 
     when {
