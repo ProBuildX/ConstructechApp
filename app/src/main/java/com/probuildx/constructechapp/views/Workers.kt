@@ -20,34 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Worker
-import com.probuildx.constructechapp.viewmodels.ViewModel
+import com.probuildx.constructechapp.viewmodels.WorkersViewModel
 
 @Composable
-fun WorkersScreen(navController: NavController, projectId: Int,viewModel: ViewModel = viewModel()) {
-
-    val workers by viewModel.workers.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
-
-    viewModel.getWorkers(projectId)
+fun WorkersScreen(navController: NavController, projectId: Int) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center
     ){
-        when {
-            isLoading -> CircularProgressIndicator()
-            errorMessage != null -> Text("Error: $errorMessage")
-            else -> {
-                LazyColumn {
-                    items(workers, key = { it.id!! }) { worker ->
-                        WorkerCard(navController = navController, worker = worker)
-                    }
-                }
-            }
-        }
+        WorkersList(navController = navController, projectId = projectId)
 
         Button(
             onClick = { navController.navigate("new-worker") },
@@ -56,6 +39,30 @@ fun WorkersScreen(navController: NavController, projectId: Int,viewModel: ViewMo
             Text("NEW WORKER")
         }
     }
+
+}
+
+@Composable
+fun WorkersList(navController: NavController, projectId: Int, workersVM: WorkersViewModel = viewModel()) {
+
+    val workers by workersVM.workers.collectAsState()
+    val isLoading by workersVM.isLoading.collectAsState()
+    val errorMessage by workersVM.errorMessage.collectAsState()
+
+    workersVM.getByProject(projectId)
+
+    when {
+        isLoading -> CircularProgressIndicator()
+        errorMessage != null -> Text("Error: $errorMessage")
+        else -> {
+            LazyColumn {
+                items(workers, key = { it.id!! }) { worker ->
+                    WorkerCard(navController = navController, worker = worker)
+                }
+            }
+        }
+    }
+
 
 }
 
