@@ -11,13 +11,12 @@ interface WorkersService {
     @GET("workers/{id}")
     suspend fun getById(@Path("id") id: Int): Worker
 
+    @GET("projects/{id}/workers")
+    suspend fun getByProject(@Path("id") id: Int): List<Worker>
+
     @POST("workers")
     suspend fun create(@Body project: Worker): Worker
 
     @DELETE("workers/{id}")
     suspend fun delete(@Path("id") id: Int)
-
-    @GET("projects/{id}/workers")
-    suspend fun getByProject(@Path("id") id: Int): List<Worker>
-
 }

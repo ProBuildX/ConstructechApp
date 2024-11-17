@@ -3,24 +3,14 @@ package com.probuildx.constructechapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
-import com.probuildx.constructechapp.views.HomeScreen
 import com.probuildx.constructechapp.views.NewProjectScreen
 import com.probuildx.constructechapp.views.ProjectDashboardScreen
-import com.probuildx.constructechapp.views.ProjectsScreen
+import com.probuildx.constructechapp.views.UserDashboardScreen
 import com.probuildx.constructechapp.views.SignInScreen
 import com.probuildx.constructechapp.views.WorkersScreen
 
@@ -43,7 +33,10 @@ fun App() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "sign-in") {
         composable("sign-in") { SignInScreen(navController) }
-        composable("projects") { ProjectsScreen(navController) }
+        composable("user-dashboard/{id}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("id")?.toInt()
+            userId?.let { UserDashboardScreen(navController, userId = it) }
+        }
         composable("new-project") { NewProjectScreen(navController) }
         composable("project-dashboard/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()

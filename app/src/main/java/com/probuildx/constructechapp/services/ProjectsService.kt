@@ -9,11 +9,12 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ProjectsService {
-    @GET("projects")
-    suspend fun getAll(): List<Project>
 
     @GET("projects/{id}")
     suspend fun getById(@Path("id") id: Int): Project
+
+    @GET("users/{id}/projects")
+    suspend fun getByUser(@Path("id") id: Int): List<Project>
 
     @POST("projects")
     suspend fun create(@Body project: Project): Project
@@ -23,5 +24,7 @@ interface ProjectsService {
 
     @DELETE("projects/{id}")
     suspend fun delete(@Path("id") id: Int)
+
+
 
 }

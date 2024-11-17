@@ -19,10 +19,9 @@ import androidx.navigation.NavController
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.probuildx.constructechapp.entities.Project
-import com.probuildx.constructechapp.viewmodels.WorkersViewModel
 
 @Composable
-fun ProjectsScreen(navController: NavController) {
+fun UserDashboardScreen(navController: NavController, userId: Int) {
 
     Column(
         modifier = Modifier
@@ -30,7 +29,7 @@ fun ProjectsScreen(navController: NavController) {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ){
-        ProjectsList(navController = navController)
+        ProjectsList(navController = navController, userId = userId)
 
         Button(
             onClick = { navController.navigate("new-project") },
@@ -43,13 +42,13 @@ fun ProjectsScreen(navController: NavController) {
 }
 
 @Composable
-fun ProjectsList(navController: NavController, userId: Int = 0, projectsVm: ProjectsViewModel = viewModel()) {
+fun ProjectsList(navController: NavController, userId: Int, projectsVm: ProjectsViewModel = viewModel()) {
 
     val projects by projectsVm.projects.collectAsState()
     val isLoading by projectsVm.isLoading.collectAsState()
     val errorMessage by projectsVm.errorMessage.collectAsState()
 
-    //LaunchedEffect(Unit) { projectsVm.getByUser(userId) }
+    LaunchedEffect(Unit) { projectsVm.getByUser(userId) }
 
     when {
         isLoading -> CircularProgressIndicator()
@@ -63,13 +62,11 @@ fun ProjectsList(navController: NavController, userId: Int = 0, projectsVm: Proj
         }
     }
 
-
 }
 
 
 @Composable
 fun ProjectCard(navController: NavController, project: Project) {
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
