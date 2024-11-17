@@ -2,20 +2,17 @@ package com.probuildx.constructechapp.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.probuildx.constructechapp.entities.User
 import com.probuildx.constructechapp.services.RetrofitClient
-import com.probuildx.constructechapp.entities.Project
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProjectsViewModel : ViewModel() {
+class UsersViewModel: ViewModel() {
 
-    private val _projects = MutableStateFlow<List<Project>>(emptyList())
-    val projects: StateFlow<List<Project>> = _projects
-
-    private val _project = MutableStateFlow<Project?>(null)
-    val project: StateFlow<Project?> = _project
+    private val _user = MutableStateFlow<User?>(null)
+    val user: StateFlow<User?> = _user
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -23,47 +20,28 @@ class ProjectsViewModel : ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-    init {
-        getAll()
-    }
-
-    private fun getAll() {
+    fun getByEmail(email: String) {
         _isLoading.value = true
         viewModelScope.launch {
             delay(500)
             try {
-                val response = RetrofitClient.projectsService.getAll()
-                _projects.value = response
+                val response = RetrofitClient.usersService.getByEmail(email)
+                _user.value = response.firstOrNull()
             }
             catch (e: Exception) { _errorMessage.value = "$e" }
             finally { _isLoading.value = false }
         }
     }
 
-    fun getById(id: Int) {
+    fun create(user: User) {
         _isLoading.value = true
         viewModelScope.launch {
             delay(500)
             try {
-                val response = RetrofitClient.projectsService.getById(id)
-                _project.value = response
+                RetrofitClient.usersService.create(user)
             }
             catch (e: Exception) { _errorMessage.value = "$e" }
             finally { _isLoading.value = false }
         }
     }
-
-    fun create(project: Project) {
-        _isLoading.value = true
-        viewModelScope.launch {
-            delay(500)
-            try {
-                RetrofitClient.projectsService.create(project)
-                getAll() // Refresh posts after creation
-            }
-            catch (e: Exception) { _errorMessage.value = "$e" }
-            finally { _isLoading.value = false }
-        }
-    }
-
 }

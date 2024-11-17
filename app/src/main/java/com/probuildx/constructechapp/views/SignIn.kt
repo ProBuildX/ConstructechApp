@@ -3,6 +3,8 @@ package com.probuildx.constructechapp.views
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -18,25 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.probuildx.constructechapp.entities.Project
-import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
+import com.probuildx.constructechapp.viewmodels.UsersViewModel
 
 @Composable
-fun SignInScreen(navController: NavController, projectsVm: ProjectsViewModel = viewModel()) {
+fun SignInScreen(navController: NavController, usersVm: UsersViewModel = viewModel()) {
 
-//    val project by projectsVm.project.collectAsState()
-//    val isLoading by projectsVm.isLoading.collectAsState()
-//    val errorMessage by projectsVm.errorMessage.collectAsState()
-//
-//    LaunchedEffect(projectId) { projectsVm.getById(projectId) }
-//
-//    when {
-//        isLoading -> CircularProgressIndicator()
-//        project == null -> CircularProgressIndicator()
-//        errorMessage != null -> Text("$errorMessage")
-//
-//        else -> { ProjectDashboard(navController, project!!) }
-//    }
+    val user by usersVm.user.collectAsState()
+    val isLoading by usersVm.isLoading.collectAsState()
+    val errorMessage by usersVm.errorMessage.collectAsState()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -65,7 +56,18 @@ fun SignInScreen(navController: NavController, projectsVm: ProjectsViewModel = v
 
         Button(
             onClick = {
-                navController.navigate("projects")
+                usersVm.getByEmail(email)
+
+                when {
+                    isLoading -> println("loading")
+                    errorMessage != null -> println("$errorMessage")
+                    user == null -> println("loading")
+                    else -> {
+                        if (password == user?.password) {
+                            navController.navigate("projects")
+                        }
+                    }
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
