@@ -12,13 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.probuildx.constructechapp.R
 import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 
@@ -46,13 +44,12 @@ fun NewProjectScreen(navController: NavController, userId: Int, projectsVm: Proj
                 .padding(bottom = 16.dp)
         )
 
-        // Image Upload Section
         Box(
             modifier = Modifier
                 .size(100.dp)
                 .clip(CircleShape)
                 .background(Color(0xFFF5F5F5))
-                .clickable { /* Handle image upload */ },
+                .clickable { /* No se implementará logica para subir imagenes */ },
             contentAlignment = Alignment.Center
         ) {
             /*
@@ -131,15 +128,11 @@ fun NewProjectScreen(navController: NavController, userId: Int, projectsVm: Proj
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Save Button
         Button(
             onClick = {
                 val newProject = Project(
                     title = title.value,
                     description = description.value,
-                    //address = address.value,
-                    //date = date.value,
-                    //budget = budget.value.toDoubleOrNull() ?: 0.0,
                     userId = userId
                 )
 

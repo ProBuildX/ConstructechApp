@@ -2,7 +2,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
@@ -55,17 +54,15 @@ fun ProjectDashboard(navController: NavController, project: Project) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Placeholder para imagen del proyecto
         Box(
             modifier = Modifier
                 .size(100.dp)
                 .padding(bottom = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            // Aquí puedes agregar un Image si es necesario
+            // Falta agregar imagen
         }
 
-        // Título del proyecto
         Text(
             text = project.title,
             fontSize = 24.sp,
@@ -73,7 +70,6 @@ fun ProjectDashboard(navController: NavController, project: Project) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // Descripción del proyecto
         Text(
             text = project.description ?: "",
             fontSize = 14.sp,
@@ -81,7 +77,6 @@ fun ProjectDashboard(navController: NavController, project: Project) {
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        // Tarjetas de acción
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween

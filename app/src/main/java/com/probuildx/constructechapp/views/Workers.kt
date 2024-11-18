@@ -74,13 +74,13 @@ fun WorkersTopBar() {
         )
         // Tab Bar
         TabRow(
-            selectedTabIndex = 1, // Workers tab is selected by default
+            selectedTabIndex = 1,
             modifier = Modifier.fillMaxWidth()
         ) {
             listOf("Summary", "Workers", "Teams").forEachIndexed { index, title ->
                 Tab(
                     selected = index == 1,
-                    onClick = { /* Handle tab selection */ },
+                    onClick = {  },
                     text = {
                         Text(
                             text = title,
@@ -143,14 +143,14 @@ fun WorkerCard(navController: NavController, worker: Worker) {
                 )
             }
             Row {
-                IconButton(onClick = { /* Edit logic */ }) {
+                IconButton(onClick = { /*falta implementar logica para editar*/ }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit",
                         tint = Color(0xFF5C6BC0)
                     )
                 }
-                IconButton(onClick = { /* Delete logic */ }) {
+                IconButton(onClick = { /*falta implementar logica para eliminar*/ }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete",
