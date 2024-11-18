@@ -1,4 +1,4 @@
-package com.probuildx.constructechapp.views
+package com.probuildx.constructechapp.views.shared
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

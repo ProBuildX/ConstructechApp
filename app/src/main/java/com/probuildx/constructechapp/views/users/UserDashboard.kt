@@ -1,3 +1,5 @@
+package com.probuildx.constructechapp.views.users
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,7 +22,6 @@ import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.entities.User
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import com.probuildx.constructechapp.viewmodels.UsersViewModel
-import com.probuildx.constructechapp.views.BottomNavigationBar
 
 @Composable
 fun UserDashboardScreen(

@@ -1,11 +1,11 @@
 package com.probuildx.constructechapp
 
-import NewProjectScreen
-import ProjectDashboardScreen
-import SignInScreen
-import SignUpScreen
-import UserDashboardScreen
-import WorkersScreen
+import com.probuildx.constructechapp.views.projects.NewProjectScreen
+import com.probuildx.constructechapp.views.projects.ProjectDashboardScreen
+import com.probuildx.constructechapp.views.users.SignInScreen
+import com.probuildx.constructechapp.views.users.SignUpScreen
+import com.probuildx.constructechapp.views.users.UserDashboardScreen
+import com.probuildx.constructechapp.views.staffmanagement.WorkersScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,10 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
-import com.probuildx.constructechapp.views.ProjectProfileScreen
-import com.probuildx.constructechapp.views.StaffManagement
-import com.probuildx.constructechapp.views.StaffManagementScreen
-import com.probuildx.constructechapp.views.UserProfileScreen
+import com.probuildx.constructechapp.views.projects.ProjectProfileScreen
+import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
+import com.probuildx.constructechapp.views.users.UserProfileScreen
 
 
 class MainActivity : ComponentActivity() {

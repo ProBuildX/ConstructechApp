@@ -1,3 +1,5 @@
+package com.probuildx.constructechapp.views.staffmanagement
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,7 +22,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Worker
 import com.probuildx.constructechapp.viewmodels.WorkersViewModel
-import com.probuildx.constructechapp.views.BottomNavigationBar
 
 @Composable
 fun WorkersScreen(navController: NavController, projectId: Int) {
