@@ -31,24 +31,6 @@ fun ProjectDashboardScreen(navController: NavController, projectId: Int, project
 
     LaunchedEffect(projectId) { projectsVm.getById(projectId) }
 
-    //TODO: de esta forma NO
-//    Scaffold(
-//        bottomBar = {
-//            BottomNavigationBar(navController)
-//        }
-//    ) { paddingValues ->
-//        Box(modifier = Modifier.padding(paddingValues)) {
-//            when {
-//                isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-//                project == null -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-//                errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
-//                else -> ProjectDashboard(navController, project!!)
-//            }
-//        }
-//    }
-
-    //TODO: de esta forma SI
-    //TODO: borrar estos todos despues de leer
     when {
         isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         project == null -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
@@ -94,7 +76,7 @@ fun ProjectDashboard(navController: NavController, project: Project) {
         )
 
         Text(
-            text = project.description ?: "",
+            text = project.description,
             fontSize = 14.sp,
             color = Color.Gray,
             modifier = Modifier.padding(bottom = 24.dp)
@@ -105,8 +87,8 @@ fun ProjectDashboard(navController: NavController, project: Project) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ActionCard(
-                title = "Workers & Teams",
-                onClick = { navController.navigate("workers/${project.id}") }
+                title = "Staff Management",
+                onClick = { navController.navigate("staff-management/${project.id}") }
             )
             ActionCard(
                 title = "Resource Management",

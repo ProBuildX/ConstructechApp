@@ -20,6 +20,19 @@ class UsersViewModel: ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
+    fun getById(id: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            delay(500)
+            try {
+                val response = RetrofitClient.usersService.getById(id)
+                _user.value = response
+            }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
+        }
+    }
+
     fun getByEmail(email: String) {
         _isLoading.value = true
         viewModelScope.launch {

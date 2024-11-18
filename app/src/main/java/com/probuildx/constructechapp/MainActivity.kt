@@ -15,6 +15,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
 import com.probuildx.constructechapp.views.ProjectProfileScreen
+import com.probuildx.constructechapp.views.StaffManagement
+import com.probuildx.constructechapp.views.StaffManagementScreen
+import com.probuildx.constructechapp.views.UserProfileScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -22,9 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContent {
-            ConstructechappTheme {
-                App()
-            }
+            ConstructechappTheme { App() }
         }
     }
 }
@@ -44,6 +45,10 @@ fun App() {
             val userId = backStackEntry.arguments?.getString("id")?.toInt()
             userId?.let { NewProjectScreen(navController, userId = it) }
         }
+        composable("user-profile/{id}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("id")?.toInt()
+            userId?.let { UserProfileScreen(navController, userId = it) }
+        }
         composable("project-dashboard/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { ProjectDashboardScreen(navController, projectId = it) }
@@ -51,6 +56,10 @@ fun App() {
         composable("project-profile/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { ProjectProfileScreen(navController, projectId = it) }
+        }
+        composable("staff-management/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { StaffManagementScreen(navController, projectId = it) }
         }
         composable("workers/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()

@@ -17,16 +17,46 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Project
+import com.probuildx.constructechapp.entities.User
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
+import com.probuildx.constructechapp.viewmodels.UsersViewModel
+import com.probuildx.constructechapp.views.BottomNavigationBar
 
 @Composable
-fun UserDashboardScreen(navController: NavController, userId: Int, projectsVm: ProjectsViewModel = viewModel()) {
+fun UserDashboardScreen(
+    navController: NavController,
+    userId: Int,
+    usersVm: UsersViewModel = viewModel(),
+    projectsVm: ProjectsViewModel = viewModel()
+) {
+    val user by usersVm.user.collectAsState()
+    val isLoadingU by usersVm.isLoading.collectAsState()
+    val errorMessageU by usersVm.errorMessage.collectAsState()
+
     val projects by projectsVm.projects.collectAsState()
-    val isLoading by projectsVm.isLoading.collectAsState()
-    val errorMessage by projectsVm.errorMessage.collectAsState()
+    val isLoadingP by projectsVm.isLoading.collectAsState()
+    val errorMessageP by projectsVm.errorMessage.collectAsState()
 
-    LaunchedEffect(Unit) { projectsVm.getByUser(userId) }
+    LaunchedEffect(userId) {
+        usersVm.getById(userId)
+        projectsVm.getByUser(userId)
+    }
 
+    when {
+        (isLoadingU || isLoadingP || user == null) ->
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessageU != null -> Text("$errorMessageU", modifier = Modifier.fillMaxSize())
+        errorMessageP != null -> Text("$errorMessageP", modifier = Modifier.fillMaxSize())
+        else -> {
+
+            UserDashboard(navController, user!!, projects)
+
+        }
+    }
+}
+
+@Composable
+fun UserDashboard(navController: NavController,user: User, projects: List<Project>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,30 +69,26 @@ fun UserDashboardScreen(navController: NavController, userId: Int, projectsVm: P
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
-            text = "Hi, User",
+            text = user.name,
             fontSize = 16.sp,
             color = Color.Gray,
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        if (isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        } else if (errorMessage != null) {
-            Text(
-                text = errorMessage!!,
-                color = Color.Red,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        } else {
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(projects, key = { it.id!! }) { project ->
-                    ProjectCard(navController = navController, project = project)
-                }
+        Button(
+            onClick = { navController.navigate("user-profile/${user.id}") },
+            ) {
+            Text(text = "Profile")
+        }
+
+        LazyColumn {
+            items(projects, key = { it.id!! }) { project ->
+                ProjectCard(navController = navController, project = project)
             }
         }
 
         Button(
-            onClick = { navController.navigate("new-project/$userId") },
+            onClick = { navController.navigate("new-project/${user.id}") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
@@ -73,6 +99,7 @@ fun UserDashboardScreen(navController: NavController, userId: Int, projectsVm: P
         }
     }
 }
+
 
 @Composable
 fun ProjectCard(navController: NavController, project: Project) {
