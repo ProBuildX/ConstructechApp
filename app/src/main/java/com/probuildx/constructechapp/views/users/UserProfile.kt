@@ -42,7 +42,7 @@ fun UserProfileScreen(navController: NavController, userId: Int, usersVm: UsersV
 
 @Composable
 fun UserProfile(navController: NavController, user: User, usersVm: UsersViewModel = viewModel()) {
-
+    //TODO: mejorar interfaz
     Column(
         modifier = Modifier
             .padding(16.dp)

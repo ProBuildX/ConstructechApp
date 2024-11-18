@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Project
 
 @Composable
-fun StaffTopBar(navController: NavController, project: Project, index: Int) {
+fun StaffTopBar(navController: NavController, projectId: Int, index: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,17 +40,17 @@ fun StaffTopBar(navController: NavController, project: Project, index: Int) {
         )
 
         TabRow(
-            selectedTabIndex = 0,
+            selectedTabIndex = index,
             modifier = Modifier.fillMaxWidth()
         ) {
             tabs.entries.forEachIndexed { i, entry ->
                 Tab(
-                    selected = i == index,
-                    onClick = { navController.navigate("${entry.key}/${project.id}") },
+                    selected = (i == index),
+                    onClick = { navController.navigate("${entry.key}/${projectId}") },
                     text = {
                         Text(
                             text = entry.value,
-                            color = if (index == 1) Color.Black else Color.Gray,
+                            color = if (i == index) Color.Black else Color.Gray,
                             fontSize = 14.sp
                         )
                     }

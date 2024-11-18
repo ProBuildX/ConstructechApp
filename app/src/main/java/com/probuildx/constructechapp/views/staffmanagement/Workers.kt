@@ -20,66 +20,76 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.entities.Worker
+import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
+import com.probuildx.constructechapp.viewmodels.UsersViewModel
 import com.probuildx.constructechapp.viewmodels.WorkersViewModel
+import com.probuildx.constructechapp.views.shared.BottomNavigationBar
+import com.probuildx.constructechapp.views.users.UserDashboard
 
 @Composable
-fun WorkersScreen(navController: NavController, projectId: Int) {
+fun WorkersScreen(
+    navController: NavController,
+    projectId: Int,
+    projectsVm: ProjectsViewModel = viewModel(),
+    workersVm: WorkersViewModel = viewModel()
+) {
+
+    val project by projectsVm.project.collectAsState()
+    val isLoadingP by projectsVm.isLoading.collectAsState()
+    val errorMessageP by projectsVm.errorMessage.collectAsState()
+
+    val workers by workersVm.workers.collectAsState()
+    val isLoadingW by workersVm.isLoading.collectAsState()
+    val errorMessageW by workersVm.errorMessage.collectAsState()
+
+
+    LaunchedEffect(projectId) {
+        projectsVm.getById(projectId)
+        workersVm.getByProject(projectId)
+    }
+
+    when {
+        (isLoadingW || isLoadingP || project == null) ->
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessageW != null -> Text("$errorMessageW", modifier = Modifier.fillMaxSize())
+        errorMessageP != null -> Text("$errorMessageP", modifier = Modifier.fillMaxSize())
+        else -> {
+
+            Workers(navController, project!!, workers)
+
+        }
+    }
+}
+
+@Composable
+fun Workers(navController: NavController, project: Project, workers: List<Worker>) {
+
     Scaffold(
-//        topBar = {
-//            WorkersTopBar()
-//        },
-//        bottomBar = {
-//            BottomNavigationBar(navController)
-//        }
+        topBar = { StaffTopBar(navController, project.id!!, 1) },
+        bottomBar = { BottomNavigationBar(navController, project) }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            WorkersList(navController = navController, projectId = projectId)
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 16.dp),
-                verticalArrangement = Arrangement.Bottom,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(16.dp)
             ) {
-                Button(
-                    onClick = { navController.navigate("new-worker") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107))
-                ) {
-                    Text("NEW WORKER", color = Color.White)
+
+                LazyColumn(modifier = Modifier.padding(16.dp)) {
+                    items(workers, key = { it.id!! }) { worker ->
+                        WorkerCard(navController = navController, worker = worker)
+                    }
                 }
+
             }
         }
     }
+
+
 }
 
-
-
-@Composable
-fun WorkersList(navController: NavController, projectId: Int, workersVm: WorkersViewModel = viewModel()) {
-    val workers by workersVm.workers.collectAsState()
-    val isLoading by workersVm.isLoading.collectAsState()
-    val errorMessage by workersVm.errorMessage.collectAsState()
-
-    LaunchedEffect(Unit) { workersVm.getByProject(projectId) }
-
-    when {
-        isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-        errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
-        else -> {
-            LazyColumn(modifier = Modifier.padding(16.dp)) {
-                items(workers, key = { it.id!! }) { worker ->
-                    WorkerCard(navController = navController, worker = worker)
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun WorkerCard(navController: NavController, worker: Worker) {

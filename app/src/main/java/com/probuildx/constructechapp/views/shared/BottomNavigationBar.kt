@@ -34,7 +34,7 @@ fun BottomNavigationBar(navController: NavController, project: Project) {
         )
         NavigationBarItem(
             selected = false,
-            onClick = { navController.navigate("user-profile/${project.userId}") },
+            onClick = { navController.navigate("account/${project.userId}") },
             label = { Text("Account") },
             icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") }
         )

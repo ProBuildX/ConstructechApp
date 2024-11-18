@@ -14,11 +14,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
+import com.probuildx.constructechapp.views.projects.AccountScreen
 import com.probuildx.constructechapp.views.projects.ProjectProfileScreen
 import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
 import com.probuildx.constructechapp.views.users.UserProfileScreen
 
-
+//TODO: cambiar los colores defecto del fondo(figma) y de los cards(blanco)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,10 @@ fun App() {
         composable("project-profile/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { ProjectProfileScreen(navController, projectId = it) }
+        }
+        composable("account/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { AccountScreen(navController, projectId = it) }
         }
         composable("staff-management/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()

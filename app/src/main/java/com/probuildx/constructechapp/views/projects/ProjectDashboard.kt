@@ -50,6 +50,9 @@ fun ProjectDashboardScreen(navController: NavController, projectId: Int, project
 
 @Composable
 fun ProjectDashboard(navController: NavController, project: Project) {
+
+    //TODO: mejorar, poner iconos, quizas los botones en vertical o agregar un falso cuarto boton
+    //TODO: poner image generica, que se vea mejor el titulo y la descripcion
     Column(
         modifier = Modifier
             .fillMaxSize()

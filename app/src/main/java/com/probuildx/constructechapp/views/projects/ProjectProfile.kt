@@ -53,7 +53,7 @@ fun ProjectProfileScreen(navController: NavController, projectId: Int, projectsV
 
 @Composable
 fun ProjectProfile(navController: NavController, project: Project, projectsVm: ProjectsViewModel = viewModel()) {
-
+    //TODO: mejorar interfaz
     Column(
         modifier = Modifier
             .padding(16.dp)

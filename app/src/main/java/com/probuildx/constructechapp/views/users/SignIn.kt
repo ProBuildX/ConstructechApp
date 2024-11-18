@@ -31,6 +31,10 @@ fun SignInScreen(navController: NavController, usersVm: UsersViewModel = viewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+        //TODO: añadir logo
+        //TODO: alinear SIGN UP
+
         Text(
             text = "Sign in your account",
             fontSize = 20.sp,
