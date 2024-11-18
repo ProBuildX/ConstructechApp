@@ -1,7 +1,10 @@
 package com.probuildx.constructechapp
 
+import NewProjectScreen
+import ProjectDashboardScreen
 import SignInScreen
 import SignUpScreen
+import UserDashboardScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,9 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
-import com.probuildx.constructechapp.views.NewProjectScreen
-import com.probuildx.constructechapp.views.ProjectDashboardScreen
-import com.probuildx.constructechapp.views.UserDashboardScreen
 import com.probuildx.constructechapp.views.WorkersScreen
 
 
