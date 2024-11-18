@@ -1,25 +1,27 @@
-package com.probuildx.constructechapp.views
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.probuildx.constructechapp.R
 import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 
 @Composable
 fun ProjectDashboardScreen(navController: NavController, projectId: Int, projectsVm: ProjectsViewModel = viewModel()) {
-
     val project by projectsVm.project.collectAsState()
     val isLoading by projectsVm.isLoading.collectAsState()
     val errorMessage by projectsVm.errorMessage.collectAsState()
@@ -27,45 +29,115 @@ fun ProjectDashboardScreen(navController: NavController, projectId: Int, project
     LaunchedEffect(projectId) { projectsVm.getById(projectId) }
 
     when {
-        isLoading -> CircularProgressIndicator()
-        project == null -> CircularProgressIndicator()
-        errorMessage != null -> Text("$errorMessage")
-
-        else -> { ProjectDashboard(navController, project!!) }
+        isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        project == null -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
+        else -> ProjectDashboard(navController, project!!)
     }
-
 }
 
 @Composable
 fun ProjectDashboard(navController: NavController, project: Project) {
-
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ){
-        Text(project.title)
-
-        Button(
-            onClick = { navController.navigate("workers/${project.id}") },
-            modifier = Modifier.fillMaxWidth()
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Image placeholder
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .padding(bottom = 16.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Text("Workers & Teams")
+            /*
+            Image(
+                painter = painterResource(id = R.drawable.ic_image_placeholder), // Reemplazar con un ícono
+                contentDescription = "Project Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(80.dp)
+            )
+             */
         }
 
-        Button(
-            onClick = {},
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Resource Management")
-        }
+        // Project title
+        Text(
+            text = project.title,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
 
-        Button(
-            onClick = {},
-            modifier = Modifier.fillMaxWidth()
+        // Project description
+        Text(
+            text = project.description ?: "",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        // Action Cards
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Tasks")
+            ActionCard(
+                title = "Workers & Teams"
+            )
+            // Reemplazar con tu ícono
+            { navController.navigate("workers/${project.id}") }
+            ActionCard(
+                title = "Resource Management",
+                //icon = painterResource(id = R.drawable.ic_resources), // Reemplazar con tu ícono
+                onClick = { navController.navigate("resources/${project.id}") }
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            ActionCard(
+                title = "Tasks",
+                //icon = painterResource(id = R.drawable.ic_tasks), // Reemplazar con tu ícono
+                onClick = { navController.navigate("tasks/${project.id}") }
+            )
         }
     }
+}
 
+@Composable
+fun ActionCard(title: String, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .width(140.dp)
+            .height(120.dp)
+            .padding(8.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            /*
+            Image(
+                painter = icon,
+                contentDescription = null,
+                modifier = Modifier.size(48.dp)
+            )
+             */
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
 }
