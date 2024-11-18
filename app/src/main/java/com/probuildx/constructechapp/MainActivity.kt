@@ -1,6 +1,7 @@
 package com.probuildx.constructechapp
 
 import SignInScreen
+import SignUpScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,7 +13,6 @@ import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
 import com.probuildx.constructechapp.views.NewProjectScreen
 import com.probuildx.constructechapp.views.ProjectDashboardScreen
 import com.probuildx.constructechapp.views.UserDashboardScreen
-import com.probuildx.constructechapp.views.SignUpScreen
 import com.probuildx.constructechapp.views.WorkersScreen
 
 
