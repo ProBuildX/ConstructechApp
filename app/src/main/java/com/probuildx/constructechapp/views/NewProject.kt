@@ -133,6 +133,9 @@ fun NewProjectScreen(navController: NavController, userId: Int, projectsVm: Proj
                 val newProject = Project(
                     title = title.value,
                     description = description.value,
+                    address = address.value,
+                    date = date.value,
+                    budget = budget.value,
                     userId = userId
                 )
 

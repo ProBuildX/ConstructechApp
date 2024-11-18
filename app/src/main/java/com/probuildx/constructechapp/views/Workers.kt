@@ -20,16 +20,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Worker
 import com.probuildx.constructechapp.viewmodels.WorkersViewModel
+import com.probuildx.constructechapp.views.BottomNavigationBar
 
 @Composable
 fun WorkersScreen(navController: NavController, projectId: Int) {
     Scaffold(
-        topBar = {
-            WorkersTopBar()
-        },
-        bottomBar = {
-            BottomNavigationBar(navController)
-        }
+//        topBar = {
+//            WorkersTopBar()
+//        },
+//        bottomBar = {
+//            BottomNavigationBar(navController)
+//        }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             WorkersList(navController = navController, projectId = projectId)

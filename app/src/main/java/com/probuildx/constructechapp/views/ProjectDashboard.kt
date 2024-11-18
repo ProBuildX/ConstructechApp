@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
+import com.probuildx.constructechapp.views.BottomNavigationBar
 
 @Composable
 fun ProjectDashboardScreen(navController: NavController, projectId: Int, projectsVm: ProjectsViewModel = viewModel()) {
@@ -30,20 +31,42 @@ fun ProjectDashboardScreen(navController: NavController, projectId: Int, project
 
     LaunchedEffect(projectId) { projectsVm.getById(projectId) }
 
-    Scaffold(
-        bottomBar = {
-            BottomNavigationBar(navController)
-        }
-    ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            when {
-                isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-                project == null -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-                errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
-                else -> ProjectDashboard(navController, project!!)
+    //TODO: de esta forma NO
+//    Scaffold(
+//        bottomBar = {
+//            BottomNavigationBar(navController)
+//        }
+//    ) { paddingValues ->
+//        Box(modifier = Modifier.padding(paddingValues)) {
+//            when {
+//                isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+//                project == null -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+//                errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
+//                else -> ProjectDashboard(navController, project!!)
+//            }
+//        }
+//    }
+
+    //TODO: de esta forma SI
+    //TODO: borrar estos todos despues de leer
+    when {
+        isLoading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        project == null -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
+        else -> {
+
+            Scaffold(
+                bottomBar = { BottomNavigationBar(navController, project!!) }
+            ) {
+                paddingValues ->
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    ProjectDashboard(navController, project!!)
+                }
             }
+
         }
     }
+
 }
 
 @Composable
@@ -102,6 +125,7 @@ fun ProjectDashboard(navController: NavController, project: Project) {
                 onClick = { navController.navigate("tasks/${project.id}") }
             )
         }
+
     }
 }
 
@@ -132,34 +156,3 @@ fun ActionCard(title: String, onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun BottomNavigationBar(navController: NavController) {
-    NavigationBar(
-        containerColor = Color.White
-    ) {
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.popBackStack() },
-            label = { Text("Projects") },
-            icon = { Icon(Icons.Default.Home, contentDescription = "Projects") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("analytics") },
-            label = { Text("Analytics") },
-            icon = { Icon(Icons.Default.Menu, contentDescription = "Analytics") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("settings") },
-            label = { Text("Settings") },
-            icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate("profile") },
-            label = { Text("Profile") },
-            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") }
-        )
-    }
-}

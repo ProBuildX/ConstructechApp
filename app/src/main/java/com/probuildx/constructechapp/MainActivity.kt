@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
+import com.probuildx.constructechapp.views.ProjectProfileScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -46,6 +47,10 @@ fun App() {
         composable("project-dashboard/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { ProjectDashboardScreen(navController, projectId = it) }
+        }
+        composable("project-profile/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { ProjectProfileScreen(navController, projectId = it) }
         }
         composable("workers/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
