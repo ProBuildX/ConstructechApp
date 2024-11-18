@@ -44,7 +44,7 @@ fun StaffManagementScreen(navController: NavController, projectId: Int, projects
 fun StaffManagement(navController: NavController, project: Project) {
 
     Scaffold(
-        //topBar = { WorkersTopBar() },
+        topBar = { StaffTopBar(navController, project, 0) },
         bottomBar = { BottomNavigationBar(navController, project) }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {

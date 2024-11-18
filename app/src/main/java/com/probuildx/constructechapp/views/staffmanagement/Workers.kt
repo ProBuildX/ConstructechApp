@@ -58,43 +58,7 @@ fun WorkersScreen(navController: NavController, projectId: Int) {
     }
 }
 
-@Composable
-fun WorkersTopBar() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Title
-        Text(
-            text = "Workers & Teams",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        // Tab Bar
-        TabRow(
-            selectedTabIndex = 1,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            listOf("Summary", "Workers", "Teams").forEachIndexed { index, title ->
-                Tab(
-                    selected = index == 1,
-                    onClick = {  },
-                    text = {
-                        Text(
-                            text = title,
-                            color = if (index == 1) Color.Black else Color.Gray,
-                            fontSize = 14.sp
-                        )
-                    }
-                )
-            }
-        }
-    }
-}
+
 
 @Composable
 fun WorkersList(navController: NavController, projectId: Int, workersVm: WorkersViewModel = viewModel()) {
