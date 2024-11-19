@@ -23,7 +23,6 @@ class ProjectsViewModel : ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-
     fun getByUser(userId: Int) {
         _isLoading.value = true
         viewModelScope.launch {
@@ -57,6 +56,18 @@ class ProjectsViewModel : ViewModel() {
             try {
                 RetrofitClient.projectsService.create(project)
                 //getAll() // Refresh posts after creation
+            }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
+        }
+    }
+
+    fun delete(projectId: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            delay(500)
+            try {
+                RetrofitClient.projectsService.delete(projectId)
             }
             catch (e: Exception) { _errorMessage.value = "$e" }
             finally { _isLoading.value = false }

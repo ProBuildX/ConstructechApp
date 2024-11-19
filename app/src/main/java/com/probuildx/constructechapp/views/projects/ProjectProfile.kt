@@ -69,7 +69,7 @@ fun ProjectProfile(navController: NavController, project: Project, projectsVm: P
 
         Button(
             onClick = {
-                //projectsVm.create(newProject)
+                projectsVm.delete(project.id!!)
                 navController.navigate("user-dashboard/${project.userId}")
             },
             modifier = Modifier

@@ -96,10 +96,14 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
                     when {
                         isLoading -> println("Loading...")
                         errorMessage != null -> println(errorMessage)
-                        user != null -> println("Email already registered")
                         else -> {
-                            usersVm.create(newUser)
-                            navController.navigate("sign-in")
+                            if (email == user?.email) {
+                                println("Email already registered")
+                            }
+                            else{
+                                usersVm.create(newUser)
+                                navController.navigate("sign-in")
+                            }
                         }
                     }
                 } else {
