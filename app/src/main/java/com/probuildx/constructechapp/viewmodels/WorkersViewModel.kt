@@ -66,7 +66,7 @@ class WorkersViewModel : ViewModel() {
         viewModelScope.launch {
             delay(500)
             try {
-                RetrofitClient.projectsService.delete(workerId)
+                RetrofitClient.workersService.delete(workerId)
             }
             catch (e: Exception) { _errorMessage.value = "$e" }
             finally { _isLoading.value = false }

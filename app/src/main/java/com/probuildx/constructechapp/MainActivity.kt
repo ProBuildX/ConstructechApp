@@ -18,6 +18,7 @@ import com.probuildx.constructechapp.views.projects.AccountScreen
 import com.probuildx.constructechapp.views.projects.ProjectProfileScreen
 import com.probuildx.constructechapp.views.staffmanagement.NewWorkerScreen
 import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
+import com.probuildx.constructechapp.views.staffmanagement.WorkerProfileScreen
 import com.probuildx.constructechapp.views.users.UserProfileScreen
 
 //TODO: cambiar los colores defecto del fondo(figma) y de los cards(blanco)
@@ -75,6 +76,10 @@ fun App() {
         composable("new-worker/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { NewWorkerScreen(navController, projectId = it) }
+        }
+        composable("worker-profile/{id}") { backStackEntry ->
+            val workerId = backStackEntry.arguments?.getString("id")?.toInt()
+            workerId?.let { WorkerProfileScreen(navController, workerId = it) }
         }
     }
 }

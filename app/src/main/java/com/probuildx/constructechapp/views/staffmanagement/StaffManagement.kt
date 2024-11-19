@@ -59,8 +59,7 @@ fun StaffManagement(navController: NavController, project: Project) {
                 Text(text = "50")
                 Text(text = "Number of Teams")
                 Text(text = "6")
-                Text(text = "Surplus")
-                Text(text = "Suma de Salarios")
+                Text(text = "Salaries Total Sum")
                 Text(text = "100000")
 
 

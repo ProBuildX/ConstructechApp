@@ -1,5 +1,6 @@
 package com.probuildx.constructechapp.views.staffmanagement
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -103,7 +104,8 @@ fun WorkerCard(navController: NavController, worker: Worker) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clickable { navController.navigate("worker-profile/${worker.id}") },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row(
