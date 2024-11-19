@@ -55,14 +55,14 @@ fun StaffManagement(navController: NavController, project: Project) {
             ) {
 
                 //TODO: mejorar
-                Text(text = "Assigned Budget")
-                Text(text = "100000")
-                Text(text = "Cost of Materials")
-                Text(text = "50000")
-                Text(text = "Cost of Machinery")
-                Text(text = "40000")
+                Text(text = "Number of Workers")
+                Text(text = "50")
+                Text(text = "Number of Teams")
+                Text(text = "6")
                 Text(text = "Surplus")
-                Text(text = "+10000")
+                Text(text = "Suma de Salarios")
+                Text(text = "100000")
+
 
             }
         }

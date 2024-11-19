@@ -14,6 +14,9 @@ class WorkersViewModel : ViewModel() {
     private val _workers = MutableStateFlow<List<Worker>>(emptyList())
     val workers: StateFlow<List<Worker>> = _workers
 
+    private val _worker = MutableStateFlow<Worker?>(null)
+    val worker: StateFlow<Worker?> = _worker
+
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
@@ -27,6 +30,43 @@ class WorkersViewModel : ViewModel() {
                 delay(500)
                 val response = RetrofitClient.workersService.getByProject(projectId)
                 _workers.value = response
+            }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
+        }
+    }
+
+    fun getById(id: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            delay(500)
+            try {
+                val response = RetrofitClient.workersService.getById(id)
+                _worker.value = response
+            }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
+        }
+    }
+
+    fun create(worker: Worker) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            delay(500)
+            try {
+                RetrofitClient.workersService.create(worker)
+            }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
+        }
+    }
+
+    fun delete(workerId: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            delay(500)
+            try {
+                RetrofitClient.projectsService.delete(workerId)
             }
             catch (e: Exception) { _errorMessage.value = "$e" }
             finally { _isLoading.value = false }

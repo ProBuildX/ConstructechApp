@@ -65,7 +65,7 @@ fun WorkersScreen(
 
 @Composable
 fun Workers(navController: NavController, project: Project, workers: List<Worker>) {
-
+    //TODO: mejorar interfaz
     Scaffold(
         topBar = { StaffTopBar(navController, project.id!!, 1) },
         bottomBar = { BottomNavigationBar(navController, project) }
@@ -83,6 +83,12 @@ fun Workers(navController: NavController, project: Project, workers: List<Worker
                     }
                 }
 
+                Button(
+                    onClick = { navController.navigate("new-worker/${project.id}") },
+                ) {
+                    Text(text = "New Worker")
+                }
+
             }
         }
     }
@@ -93,6 +99,7 @@ fun Workers(navController: NavController, project: Project, workers: List<Worker
 
 @Composable
 fun WorkerCard(navController: NavController, worker: Worker) {
+    //TODO: mejorar interfaz
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -106,6 +113,8 @@ fun WorkerCard(navController: NavController, worker: Worker) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Text(text = worker.role)
+
             Column {
                 Text(
                     text = worker.name,
@@ -118,22 +127,7 @@ fun WorkerCard(navController: NavController, worker: Worker) {
                     color = Color.Gray
                 )
             }
-            Row {
-                IconButton(onClick = { /*falta implementar logica para editar*/ }) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit",
-                        tint = Color(0xFF5C6BC0)
-                    )
-                }
-                IconButton(onClick = { /*falta implementar logica para eliminar*/ }) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete",
-                        tint = Color(0xFFD32F2F)
-                    )
-                }
-            }
+
         }
     }
 }
