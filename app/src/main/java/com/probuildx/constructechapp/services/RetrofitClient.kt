@@ -26,4 +26,8 @@ object RetrofitClient {
     val workersService: WorkersService by lazy {
         retrofit.create(WorkersService::class.java)
     }
+
+    val materialsService: MaterialsService by lazy {
+        retrofit.create(MaterialsService::class.java)
+    }
 }

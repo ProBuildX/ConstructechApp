@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
 import com.probuildx.constructechapp.views.projects.AccountScreen
 import com.probuildx.constructechapp.views.projects.ProjectProfileScreen
+import com.probuildx.constructechapp.views.resourcemanagement.MaterialsScreen
 import com.probuildx.constructechapp.views.resourcemanagement.ResourceManagementScreen
 import com.probuildx.constructechapp.views.staffmanagement.NewWorkerScreen
 import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
@@ -85,6 +86,10 @@ fun App() {
         composable("resource-management/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { ResourceManagementScreen(navController, projectId = it) }
+        }
+        composable("materials/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { MaterialsScreen(navController, projectId = it) }
         }
     }
 }

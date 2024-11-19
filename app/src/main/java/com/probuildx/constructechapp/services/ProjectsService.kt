@@ -25,6 +25,4 @@ interface ProjectsService {
     @DELETE("projects/{id}")
     suspend fun delete(@Path("id") id: Int)
 
-
-
 }
