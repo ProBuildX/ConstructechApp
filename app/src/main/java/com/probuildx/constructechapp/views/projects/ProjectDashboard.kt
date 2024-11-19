@@ -92,7 +92,7 @@ fun ProjectDashboard(navController: NavController, project: Project) {
             )
             ActionCard(
                 title = "Resource Management",
-                onClick = { navController.navigate("resources/${project.id}") }
+                onClick = { navController.navigate("resource-management/${project.id}") }
             )
         }
 
