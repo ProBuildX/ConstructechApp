@@ -39,4 +39,8 @@ object RetrofitClient {
         retrofit.create(TeamsService::class.java)
     }
 
+    val tasksService: TasksService by lazy {
+        retrofit.create(TasksService::class.java)
+    }
+
 }

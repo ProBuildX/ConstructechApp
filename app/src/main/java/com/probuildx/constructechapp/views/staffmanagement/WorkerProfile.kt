@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.probuildx.constructechapp.entities.Team
 import com.probuildx.constructechapp.entities.Worker
+import com.probuildx.constructechapp.viewmodels.TeamsViewModel
 import com.probuildx.constructechapp.viewmodels.WorkersViewModel
 
 @Composable
@@ -34,14 +36,42 @@ fun WorkerProfileScreen(navController: NavController, workerId: Int, workersVm: 
         errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
         else -> {
 
-            WorkerProfile(navController, worker!!)
+            WorkerProfileScreen2(navController, worker!!)
 
         }
     }
 }
 
 @Composable
-fun WorkerProfile(navController: NavController, worker: Worker, workersVm: WorkersViewModel = viewModel()) {
+fun WorkerProfileScreen2(
+    navController: NavController,
+    worker: Worker,
+    teamsVm: TeamsViewModel = viewModel()
+) {
+    val team by teamsVm.team.collectAsState()
+    val isLoading by teamsVm.isLoading.collectAsState()
+    val errorMessage by teamsVm.errorMessage.collectAsState()
+
+    LaunchedEffect(worker.teamId) { teamsVm.getById(worker.teamId) }
+
+    when {
+        (isLoading) -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessage != null -> WorkerProfile(navController, worker, null)
+        else -> {
+
+            WorkerProfile(navController, worker, team)
+
+        }
+    }
+}
+
+@Composable
+fun WorkerProfile(
+    navController: NavController,
+    worker: Worker,
+    team: Team?,
+    workersVm: WorkersViewModel = viewModel(),
+) {
     //TODO: mejorar interfaz
     Column(
         modifier = Modifier
@@ -54,6 +84,9 @@ fun WorkerProfile(navController: NavController, worker: Worker, workersVm: Worke
         Text(text = "DNI: ${worker.dni} ")
         Text(text = "Role: ${worker.role} ")
         Text(text = "Salary: ${worker.salary} ")
+        if (team == null) { Text(text = "Team: sin asignar") }
+        else { Text(text = "Team: ${team.name} ") }
+
 
         Button(
             onClick = {
