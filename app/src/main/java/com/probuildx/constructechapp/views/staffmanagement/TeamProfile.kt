@@ -5,15 +5,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +38,7 @@ import com.probuildx.constructechapp.entities.Worker
 import com.probuildx.constructechapp.viewmodels.TeamsViewModel
 import com.probuildx.constructechapp.viewmodels.WorkersViewModel
 
+@ExperimentalMaterial3Api
 @Composable
 fun TeamProfileScreen(
     navController: NavController,
@@ -57,6 +72,7 @@ fun TeamProfileScreen(
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun TeamProfile(
     navController: NavController,
@@ -64,29 +80,81 @@ fun TeamProfile(
     workers: List<Worker>,
     teamsVm: TeamsViewModel = viewModel()
 ) {
-    //TODO: mejorar interfaz
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text("Name: ${team.name} ")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Team Profile") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFF5F5F5))
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Team Details Card
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+                    elevation = CardDefaults.cardElevation(6.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = team.name,
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = Color(0xFF333333)
+                        )
+                        Text(
+                            text = "Workers:",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                            color = Color(0xFF666666)
+                        )
 
-        Text("Workers:")
-        workers.forEach { worker ->
-            Text("${worker.name} ${worker.lastName}")
-        }
+                        // Worker List
+                        workers.forEach { worker ->
+                            Text(
+                                text = "- ${worker.name} ${worker.lastName}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
 
-        Button(
-            onClick = {
-                teamsVm.delete(team.id!!)
-                navController.navigate("teams/${team.projectId}")
+                // Delete Button
+                Button(
+                    onClick = {
+                        teamsVm.delete(team.id!!)
+                        navController.navigate("teams/${team.projectId}")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF6D6D))
+                ) {
+                    Text(
+                        text = "Delete Team",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        color = Color.White
+                    )
+                }
             }
-        ) {
-            Text(text = "Delete", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
-
-    }
-
+    )
 }
