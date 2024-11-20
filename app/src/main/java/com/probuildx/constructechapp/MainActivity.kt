@@ -36,7 +36,6 @@ import com.probuildx.constructechapp.views.tasks.TaskProfileScreen
 import com.probuildx.constructechapp.views.tasks.TasksScreen
 import com.probuildx.constructechapp.views.users.UserProfileScreen
 
-//TODO: cambiar los colores defecto del fondo(figma) y de los cards(blanco)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

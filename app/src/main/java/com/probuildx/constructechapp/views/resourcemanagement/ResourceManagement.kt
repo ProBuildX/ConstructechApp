@@ -1,17 +1,27 @@
 package com.probuildx.constructechapp.views.resourcemanagement
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -86,6 +96,9 @@ fun ResourceManagement(
     materials: List<Material>,
     machines: List<Machine>
 ) {
+    val materialsSum = materials.sumOf { it.totalCost?.toIntOrNull() ?: 0 }
+    val machinerySum = machines.sumOf { it.totalCost?.toIntOrNull() ?: 0 }
+    val totalCost = materialsSum + machinerySum
 
     Scaffold(
         topBar = { ResourceTopBar(navController, project.id!!, 0) },
@@ -95,23 +108,59 @@ fun ResourceManagement(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                val materialsSum = materials.sumOf { it.totalCost.toInt() }
-                val machinerySum = machines.sumOf { it.totalCost.toInt() }
+                // Material Costs Card
+                ResourceCard(
+                    title = "Total Cost of Materials",
+                    cost = materialsSum,
+                    color = Color(0xFF64B5F6)
+                )
 
-                //TODO: mejorar
-                Text(text = "Total cost of Materials")
-                Text(text = "$materialsSum")
-                Text(text = "Total cost of Machinery")
-                Text(text = "$machinerySum")
-                Text(text = "Total Cost")
-                Text(text = "${materialsSum + machinerySum}")
+                // Machinery Costs Card
+                ResourceCard(
+                    title = "Total Cost of Machinery",
+                    cost = machinerySum,
+                    color = Color(0xFFFFB74D)
+                )
 
+                // Total Costs Card
+                ResourceCard(
+                    title = "Total Cost",
+                    cost = totalCost,
+                    color = Color(0xFF81C784)
+                )
 
             }
         }
     }
+}
 
-
+@Composable
+fun ResourceCard(title: String, cost: Int, color: Color) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(6.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                color = Color.Black
+            )
+            Text(
+                text = "$$cost",
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                color = color
+            )
+        }
+    }
 }

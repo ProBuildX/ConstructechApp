@@ -1,17 +1,28 @@
 package com.probuildx.constructechapp.views.staffmanagement
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -86,6 +97,9 @@ fun StaffManagement(
     workers: List<Worker>,
     teams: List<Team>
 ) {
+    val workersCount = workers.size
+    val teamsCount = teams.size
+    val salariesSum = workers.sumOf { it.salary.toIntOrNull() ?: 0 }
 
     Scaffold(
         topBar = { StaffTopBar(navController, project.id!!, 0) },
@@ -95,24 +109,59 @@ fun StaffManagement(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // Card para el número de trabajadores
+                InfoCard(
+                    title = "Number of Workers",
+                    value = "$workersCount",
+                    color = Color(0xFF64B5F6)
+                )
 
-                val workersCount = workers.size
-                val teamsCount = teams.size
-                val salariesSum = workers.sumOf { it.salary.toInt() }
+                // Card para el número de equipos
+                InfoCard(
+                    title = "Number of Teams",
+                    value = "$teamsCount",
+                    color = Color(0xFFFFB74D)
+                )
 
-                Text(text = "Number of Workers")
-                Text(text = "$workersCount")
-                Text(text = "Number of Teams")
-                Text(text = "$teamsCount")
-                Text(text = "Salaries Total Sum")
-                Text(text = "$salariesSum")
-
+                // Card para el total de salarios
+                InfoCard(
+                    title = "Total Salaries",
+                    value = "$$salariesSum",
+                    color = Color(0xFF81C784)
+                )
 
             }
         }
     }
+}
 
-
+@Composable
+fun InfoCard(title: String, value: String, color: Color) {
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(6.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                color = Color.Black
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                color = color
+            )
+        }
+    }
 }
