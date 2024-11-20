@@ -48,7 +48,21 @@ fun SignInScreen(navController: NavController, usersVm: UsersViewModel = viewMod
                 .padding(bottom = 16.dp), // Espaciado entre el logo y el título
             contentScale = ContentScale.Fit
         )
-
+        //Nombre App in yellow
+        Text(
+            text = "Constructech",
+            fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        //Subtitulo Author: ProBuildX, gray color
+        Text(
+            text = "by ProBuildX",
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
         // Título
         Text(
             text = "Sign in your account",
