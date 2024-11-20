@@ -29,6 +29,9 @@ import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
 import com.probuildx.constructechapp.views.staffmanagement.TeamProfileScreen
 import com.probuildx.constructechapp.views.staffmanagement.TeamsScreen
 import com.probuildx.constructechapp.views.staffmanagement.WorkerProfileScreen
+import com.probuildx.constructechapp.views.tasks.NewTaskScreen
+import com.probuildx.constructechapp.views.tasks.TaskProfileScreen
+import com.probuildx.constructechapp.views.tasks.TasksScreen
 import com.probuildx.constructechapp.views.users.UserProfileScreen
 
 //TODO: cambiar los colores defecto del fondo(figma) y de los cards(blanco)
@@ -130,6 +133,18 @@ fun App() {
         composable("team-profile/{id}") { backStackEntry ->
             val teamId = backStackEntry.arguments?.getString("id")?.toInt()
             teamId?.let { TeamProfileScreen(navController, teamId = it) }
+        }
+        composable("tasks/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { TasksScreen(navController, projectId = it) }
+        }
+        composable("new-task/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { NewTaskScreen(navController, projectId = it) }
+        }
+        composable("task-profile/{id}") { backStackEntry ->
+            val taskId = backStackEntry.arguments?.getString("id")?.toInt()
+            taskId?.let { TaskProfileScreen(navController, taskId = it) }
         }
     }
 }
