@@ -23,7 +23,7 @@ class UsersViewModel: ViewModel() {
     fun getById(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 val response = RetrofitClient.usersService.getById(id)
                 _user.value = response
@@ -36,7 +36,7 @@ class UsersViewModel: ViewModel() {
     fun getByEmail(email: String) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 val response = RetrofitClient.usersService.getByEmail(email)
                 _user.value = response.firstOrNull()
@@ -49,7 +49,7 @@ class UsersViewModel: ViewModel() {
     fun create(user: User) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.usersService.create(user)
             }

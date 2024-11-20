@@ -15,9 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.probuildx.constructechapp.entities.Machine
+import com.probuildx.constructechapp.entities.Material
 import com.probuildx.constructechapp.entities.Project
+import com.probuildx.constructechapp.viewmodels.MachineryViewModel
+import com.probuildx.constructechapp.viewmodels.MaterialsViewModel
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import com.probuildx.constructechapp.views.shared.BottomNavigationBar
+import com.probuildx.constructechapp.views.staffmanagement.TeamProfile
 
 @Composable
 fun ResourceManagementScreen(navController: NavController, projectId: Int, projectsVm: ProjectsViewModel = viewModel()) {
@@ -33,7 +38,7 @@ fun ResourceManagementScreen(navController: NavController, projectId: Int, proje
         errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
         else -> {
 
-            ResourceManagement(navController, project!!)
+            ResourceManagementScreen2(navController, project!!)
 
         }
     }
@@ -41,7 +46,46 @@ fun ResourceManagementScreen(navController: NavController, projectId: Int, proje
 }
 
 @Composable
-fun ResourceManagement(navController: NavController, project: Project) {
+fun ResourceManagementScreen2(
+    navController: NavController,
+    project: Project,
+    materialsVm: MaterialsViewModel = viewModel(),
+    machineryVm: MachineryViewModel = viewModel()
+) {
+    val materials by materialsVm.materials.collectAsState()
+    val isLoadingM by materialsVm.isLoading.collectAsState()
+    val errorMessageM by materialsVm.errorMessage.collectAsState()
+
+    val machines by machineryVm.machines.collectAsState()
+    val isLoadingH by machineryVm.isLoading.collectAsState()
+    val errorMessageH by machineryVm.errorMessage.collectAsState()
+
+    LaunchedEffect(project.id) {
+        materialsVm.getByProject(project.id!!)
+        machineryVm.getByProject(project.id)
+    }
+
+    when {
+        (isLoadingM || isLoadingH) ->
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessageM != null -> Text("$errorMessageM", modifier = Modifier.fillMaxSize())
+        errorMessageH != null -> Text("$errorMessageH", modifier = Modifier.fillMaxSize())
+        else -> {
+
+            ResourceManagement(navController, project, materials, machines)
+
+        }
+    }
+
+}
+
+@Composable
+fun ResourceManagement(
+    navController: NavController,
+    project: Project,
+    materials: List<Material>,
+    machines: List<Machine>
+) {
 
     Scaffold(
         topBar = { ResourceTopBar(navController, project.id!!, 0) },
@@ -53,14 +97,16 @@ fun ResourceManagement(navController: NavController, project: Project) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
+                val materialsSum = materials.sumOf { it.totalCost.toInt() }
+                val machinerySum = machines.sumOf { it.totalCost.toInt() }
 
                 //TODO: mejorar
                 Text(text = "Total cost of Materials")
-                Text(text = "10000")
+                Text(text = "$materialsSum")
                 Text(text = "Total cost of Machinery")
-                Text(text = "5000")
+                Text(text = "$machinerySum")
                 Text(text = "Total Cost")
-                Text(text = "100000")
+                Text(text = "${materialsSum + machinerySum}")
 
 
             }

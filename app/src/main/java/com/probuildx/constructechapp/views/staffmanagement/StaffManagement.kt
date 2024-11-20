@@ -16,7 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.Project
+import com.probuildx.constructechapp.entities.Team
+import com.probuildx.constructechapp.entities.Worker
+import com.probuildx.constructechapp.viewmodels.WorkersViewModel
+import com.probuildx.constructechapp.viewmodels.TeamsViewModel
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
+import com.probuildx.constructechapp.views.resourcemanagement.ResourceManagement
 import com.probuildx.constructechapp.views.shared.BottomNavigationBar
 
 @Composable
@@ -33,7 +38,7 @@ fun StaffManagementScreen(navController: NavController, projectId: Int, projects
         errorMessage != null -> Text("$errorMessage", modifier = Modifier.fillMaxSize())
         else -> {
 
-            StaffManagement(navController, project!!)
+            StaffManagementScreen2(navController, project!!)
 
         }
     }
@@ -41,7 +46,46 @@ fun StaffManagementScreen(navController: NavController, projectId: Int, projects
 }
 
 @Composable
-fun StaffManagement(navController: NavController, project: Project) {
+fun StaffManagementScreen2(
+    navController: NavController,
+    project: Project,
+    workersVm: WorkersViewModel = viewModel(),
+    teamsVm: TeamsViewModel = viewModel()
+) {
+    val workers by workersVm.workers.collectAsState()
+    val isLoadingM by workersVm.isLoading.collectAsState()
+    val errorMessageM by workersVm.errorMessage.collectAsState()
+
+    val teams by teamsVm.teams.collectAsState()
+    val isLoadingH by teamsVm.isLoading.collectAsState()
+    val errorMessageH by teamsVm.errorMessage.collectAsState()
+
+    LaunchedEffect(project.id) {
+        workersVm.getByProject(project.id!!)
+        teamsVm.getByProject(project.id)
+    }
+
+    when {
+        (isLoadingM || isLoadingH) ->
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        errorMessageM != null -> Text("$errorMessageM", modifier = Modifier.fillMaxSize())
+        errorMessageH != null -> Text("$errorMessageH", modifier = Modifier.fillMaxSize())
+        else -> {
+
+            StaffManagement(navController, project, workers, teams)
+
+        }
+    }
+
+}
+
+@Composable
+fun StaffManagement(
+    navController: NavController,
+    project: Project,
+    workers: List<Worker>,
+    teams: List<Team>
+) {
 
     Scaffold(
         topBar = { StaffTopBar(navController, project.id!!, 0) },
@@ -54,13 +98,16 @@ fun StaffManagement(navController: NavController, project: Project) {
                     .padding(16.dp)
             ) {
 
-                //TODO: mejorar
+                val workersCount = workers.size
+                val teamsCount = teams.size
+                val salariesSum = workers.sumOf { it.salary.toInt() }
+
                 Text(text = "Number of Workers")
-                Text(text = "50")
+                Text(text = "$workersCount")
                 Text(text = "Number of Teams")
-                Text(text = "6")
+                Text(text = "$teamsCount")
                 Text(text = "Salaries Total Sum")
-                Text(text = "100000")
+                Text(text = "$salariesSum")
 
 
             }

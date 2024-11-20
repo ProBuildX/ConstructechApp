@@ -27,7 +27,7 @@ class TasksViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                delay(500)
+                //delay(500)
                 val response = RetrofitClient.tasksService.getByProject(projectId)
                 _tasks.value = response
             }
@@ -39,7 +39,7 @@ class TasksViewModel : ViewModel() {
     fun getById(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 val response = RetrofitClient.tasksService.getById(id)
                 _task.value = response
@@ -52,7 +52,7 @@ class TasksViewModel : ViewModel() {
     fun create(task: Task) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.tasksService.create(task)
             }
@@ -64,7 +64,7 @@ class TasksViewModel : ViewModel() {
     fun delete(taskId: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.tasksService.delete(taskId)
             }
