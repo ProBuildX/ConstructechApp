@@ -27,32 +27,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.probuildx.constructechapp.entities.Material
+import com.probuildx.constructechapp.entities.Machine
 import com.probuildx.constructechapp.entities.Project
-import com.probuildx.constructechapp.viewmodels.MaterialsViewModel
+import com.probuildx.constructechapp.viewmodels.MachineryViewModel
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import com.probuildx.constructechapp.views.shared.BottomNavigationBar
 
 @Composable
-fun MaterialsScreen(
+fun MachineryScreen(
     navController: NavController,
     projectId: Int,
     projectsVm: ProjectsViewModel = viewModel(),
-    materialsVm: MaterialsViewModel = viewModel()
+    machineryVm: MachineryViewModel = viewModel()
 ) {
 
     val project by projectsVm.project.collectAsState()
     val isLoadingP by projectsVm.isLoading.collectAsState()
     val errorMessageP by projectsVm.errorMessage.collectAsState()
 
-    val materials by materialsVm.materials.collectAsState()
-    val isLoadingW by materialsVm.isLoading.collectAsState()
-    val errorMessageW by materialsVm.errorMessage.collectAsState()
+    val machines by machineryVm.machines.collectAsState()
+    val isLoadingW by machineryVm.isLoading.collectAsState()
+    val errorMessageW by machineryVm.errorMessage.collectAsState()
 
 
     LaunchedEffect(projectId) {
         projectsVm.getById(projectId)
-        materialsVm.getByProject(projectId)
+        machineryVm.getByProject(projectId)
     }
 
     when {
@@ -62,17 +62,17 @@ fun MaterialsScreen(
         errorMessageP != null -> Text("$errorMessageP", modifier = Modifier.fillMaxSize())
         else -> {
 
-            Materials(navController, project!!, materials)
+            Machinery(navController, project!!, machines)
 
         }
     }
 }
 
 @Composable
-fun Materials(navController: NavController, project: Project, materials: List<Material>) {
+fun Machinery(navController: NavController, project: Project, machines: List<Machine>) {
     //TODO: mejorar interfaz
     Scaffold(
-        topBar = { ResourceTopBar(navController, project.id!!, 1) },
+        topBar = { ResourceTopBar(navController, project.id!!, 2) },
         bottomBar = { BottomNavigationBar(navController, project) }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
@@ -83,33 +83,32 @@ fun Materials(navController: NavController, project: Project, materials: List<Ma
             ) {
 
                 LazyColumn(modifier = Modifier.padding(16.dp)) {
-                    items(materials, key = { it.id!! }) { material ->
-                        MaterialCard(navController, material = material)
+                    items(machines, key = { it.id!! }) { machine ->
+                        MachineCard(navController = navController, machine = machine)
                     }
                 }
 
                 Button(
-                    onClick = { navController.navigate("new-material/${project.id}") },
+                    onClick = { navController.navigate("new-machine/${project.id}") },
                 ) {
-                    Text(text = "New Material")
+                    Text(text = "New Machine")
                 }
 
             }
         }
     }
 
-
 }
 
 
 @Composable
-fun MaterialCard(navController: NavController, material: Material) {
+fun MachineCard(navController: NavController, machine: Machine) {
     //TODO: mejorar interfaz
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable { navController.navigate("material-profile/${material.id}") },
+            .clickable { navController.navigate("machine-profile/${machine.id}") },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row(
@@ -119,16 +118,16 @@ fun MaterialCard(navController: NavController, material: Material) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = material.name)
+            Text(text = machine.name)
 
             Column {
                 Text(
-                    text = "Amount",
+                    text = "Start Date",
                     fontSize = 16.sp,
                     color = Color.Black
                 )
                 Text(
-                    text = material.amount,
+                    text = machine.startDate,
                     fontSize = 14.sp,
                     color = Color.Gray
                 )

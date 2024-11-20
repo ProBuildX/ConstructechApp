@@ -16,7 +16,12 @@ import androidx.navigation.compose.composable
 import com.probuildx.constructechapp.ui.theme.ConstructechappTheme
 import com.probuildx.constructechapp.views.projects.AccountScreen
 import com.probuildx.constructechapp.views.projects.ProjectProfileScreen
+import com.probuildx.constructechapp.views.resourcemanagement.MachineProfileScreen
+import com.probuildx.constructechapp.views.resourcemanagement.MachineryScreen
+import com.probuildx.constructechapp.views.resourcemanagement.MaterialProfileScreen
 import com.probuildx.constructechapp.views.resourcemanagement.MaterialsScreen
+import com.probuildx.constructechapp.views.resourcemanagement.NewMachineScreen
+import com.probuildx.constructechapp.views.resourcemanagement.NewMaterialScreen
 import com.probuildx.constructechapp.views.resourcemanagement.ResourceManagementScreen
 import com.probuildx.constructechapp.views.staffmanagement.NewWorkerScreen
 import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
@@ -90,6 +95,26 @@ fun App() {
         composable("materials/{id}") { backStackEntry ->
             val projectId = backStackEntry.arguments?.getString("id")?.toInt()
             projectId?.let { MaterialsScreen(navController, projectId = it) }
+        }
+        composable("new-material/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { NewMaterialScreen(navController, projectId = it) }
+        }
+        composable("material-profile/{id}") { backStackEntry ->
+            val materialId = backStackEntry.arguments?.getString("id")?.toInt()
+            materialId?.let { MaterialProfileScreen(navController, materialId = it) }
+        }
+        composable("machinery/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { MachineryScreen(navController, projectId = it) }
+        }
+        composable("new-machine/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { NewMachineScreen(navController, projectId = it) }
+        }
+        composable("machine-profile/{id}") { backStackEntry ->
+            val machineId = backStackEntry.arguments?.getString("id")?.toInt()
+            machineId?.let { MachineProfileScreen(navController, machineId = it) }
         }
     }
 }
