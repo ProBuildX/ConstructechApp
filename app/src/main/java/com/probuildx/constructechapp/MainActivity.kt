@@ -23,8 +23,11 @@ import com.probuildx.constructechapp.views.resourcemanagement.MaterialsScreen
 import com.probuildx.constructechapp.views.resourcemanagement.NewMachineScreen
 import com.probuildx.constructechapp.views.resourcemanagement.NewMaterialScreen
 import com.probuildx.constructechapp.views.resourcemanagement.ResourceManagementScreen
+import com.probuildx.constructechapp.views.staffmanagement.NewTeamScreen
 import com.probuildx.constructechapp.views.staffmanagement.NewWorkerScreen
 import com.probuildx.constructechapp.views.staffmanagement.StaffManagementScreen
+import com.probuildx.constructechapp.views.staffmanagement.TeamProfileScreen
+import com.probuildx.constructechapp.views.staffmanagement.TeamsScreen
 import com.probuildx.constructechapp.views.staffmanagement.WorkerProfileScreen
 import com.probuildx.constructechapp.views.users.UserProfileScreen
 
@@ -115,6 +118,18 @@ fun App() {
         composable("machine-profile/{id}") { backStackEntry ->
             val machineId = backStackEntry.arguments?.getString("id")?.toInt()
             machineId?.let { MachineProfileScreen(navController, machineId = it) }
+        }
+        composable("teams/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { TeamsScreen(navController, projectId = it) }
+        }
+        composable("new-team/{id}") { backStackEntry ->
+            val projectId = backStackEntry.arguments?.getString("id")?.toInt()
+            projectId?.let { NewTeamScreen(navController, projectId = it) }
+        }
+        composable("team-profile/{id}") { backStackEntry ->
+            val teamId = backStackEntry.arguments?.getString("id")?.toInt()
+            teamId?.let { TeamProfileScreen(navController, teamId = it) }
         }
     }
 }

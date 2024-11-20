@@ -35,4 +35,8 @@ object RetrofitClient {
         retrofit.create(MachineryService::class.java)
     }
 
+    val teamsService: TeamsService by lazy {
+        retrofit.create(TeamsService::class.java)
+    }
+
 }
