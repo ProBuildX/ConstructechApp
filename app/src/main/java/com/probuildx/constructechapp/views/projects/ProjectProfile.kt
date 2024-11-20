@@ -126,7 +126,8 @@ fun ProjectProfile(navController: NavController, project: Project, projectsVm: P
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
-                    shape = RoundedCornerShape(50)
+                    shape = RoundedCornerShape(50),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
                 ) {
                     Text(text = "Delete Project", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.White)
                 }
