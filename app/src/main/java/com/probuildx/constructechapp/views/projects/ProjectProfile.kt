@@ -79,41 +79,29 @@ fun ProjectProfile(navController: NavController, project: Project, projectsVm: P
             ) {
                 // Project Details Card
                 Card(
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(6.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F1F1))
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
+                        // Project Title
                         Text(
                             text = project.title,
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = Color(0xFF333333)
+                            color = Color(0xFF222222)
                         )
-                        Text(
-                            text = "Description: ${project.description}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF666666)
-                        )
-                        Text(
-                            text = "Address: ${project.address}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF666666)
-                        )
-                        Text(
-                            text = "Date: ${project.date}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF666666)
-                        )
-                        Text(
-                            text = "Budget: ${project.budget}",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF666666)
-                        )
+                        Divider(modifier = Modifier.padding(vertical = 8.dp), color = Color(0xFFE0E0E0))
+                        // Details Section
+                        DetailRow(label = "Description", value = project.description)
+                        DetailRow(label = "Address", value = project.address)
+                        DetailRow(label = "Date", value = project.date)
+                        DetailRow(label = "Budget", value = "$${project.budget}")
                     }
                 }
 
@@ -125,7 +113,7 @@ fun ProjectProfile(navController: NavController, project: Project, projectsVm: P
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(vertical = 16.dp),
                     shape = RoundedCornerShape(50),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
                 ) {
@@ -134,4 +122,21 @@ fun ProjectProfile(navController: NavController, project: Project, projectsVm: P
             }
         }
     )
+}
+
+@Composable
+fun DetailRow(label: String, value: String) {
+    Column(modifier = Modifier.padding(vertical = 4.dp)) {
+        Text(
+            text = label,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = Color.Gray
+        )
+        Text(
+            text = value,
+            fontSize = 16.sp,
+            color = Color.Black
+        )
+    }
 }
