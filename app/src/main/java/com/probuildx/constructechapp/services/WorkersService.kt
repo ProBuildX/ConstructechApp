@@ -14,6 +14,9 @@ interface WorkersService {
     @GET("projects/{id}/workers")
     suspend fun getByProject(@Path("id") id: Int): List<Worker>
 
+    @GET("teams/{id}/workers")
+    suspend fun getByTeam(@Path("id") id: Int): List<Worker>
+
     @POST("workers")
     suspend fun create(@Body project: Worker): Worker
 

@@ -7,5 +7,6 @@ data class Worker(
     val dni: String,
     val role: String,
     val salary: String,
-    val projectId: Int
+    val projectId: Int,
+    val teamId: Int = 0,
 )

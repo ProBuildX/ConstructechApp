@@ -72,4 +72,17 @@ class WorkersViewModel : ViewModel() {
             finally { _isLoading.value = false }
         }
     }
+
+    fun getByTeam(teamId: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                delay(500)
+                val response = RetrofitClient.workersService.getByTeam(teamId)
+                _workers.value = response
+            }
+            catch (e: Exception) { _errorMessage.value = "$e" }
+            finally { _isLoading.value = false }
+        }
+    }
 }
