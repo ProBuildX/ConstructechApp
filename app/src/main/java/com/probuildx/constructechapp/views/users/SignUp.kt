@@ -2,18 +2,25 @@ package com.probuildx.constructechapp.views.users
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.sharp.KeyboardArrowDown
+import androidx.compose.material.icons.sharp.KeyboardArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.probuildx.constructechapp.entities.User
 import com.probuildx.constructechapp.viewmodels.UsersViewModel
+
 
 @Composable
 fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewModel()) {
@@ -26,6 +33,9 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var confirmPasswordVisible by remember { mutableStateOf(false) }
+    var termsAccepted by remember { mutableStateOf(false) } // Estado para el checkbox de términos
 
     Column(
         modifier = Modifier
@@ -34,6 +44,20 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            contentAlignment = Alignment.TopStart
+        ) {
+            IconButton(onClick = { navController.navigate("sign-in") }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back to Sign In"
+                )
+            }
+        }
+
         Text(
             text = "Create your account",
             fontSize = 20.sp,
@@ -67,7 +91,15 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
             onValueChange = { password = it },
             label = { Text("Password") },
             singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    val icon = if (passwordVisible) Icons.Sharp.KeyboardArrowDown else Icons.Sharp.KeyboardArrowUp
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+                    Icon(imageVector = icon, contentDescription = description)
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -78,11 +110,37 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
             onValueChange = { confirmPassword = it },
             label = { Text("Confirm password") },
             singleLine = true,
+            visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            trailingIcon = {
+                IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
+                    val icon = if (confirmPasswordVisible) Icons.Sharp.KeyboardArrowDown else Icons.Sharp.KeyboardArrowUp
+                    val description = if (confirmPasswordVisible) "Hide password" else "Show password"
+                    Icon(imageVector = icon, contentDescription = description)
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
+
+        // Checkbox de términos y condiciones
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = termsAccepted,
+                onCheckedChange = { termsAccepted = it }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "I accept the terms and conditions",
+                fontSize = 14.sp
+            )
+        }
 
         Button(
             onClick = {
@@ -99,8 +157,7 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
                         else -> {
                             if (email == user?.email) {
                                 println("Email already registered")
-                            }
-                            else{
+                            } else {
                                 usersVm.create(newUser)
                                 navController.navigate("sign-in")
                             }
@@ -113,22 +170,29 @@ fun SignUpScreen(navController: NavController, usersVm: UsersViewModel = viewMod
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            enabled = termsAccepted // El botón solo estará habilitado si se aceptan los términos
         ) {
             Text("SIGN UP", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Text(text = "Have an account? ")
-            TextButton(onClick = { navController.navigate("sign-in") }) {
-                Text(
-                    text = "SIGN IN",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold
-                )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Have an account? ")
+                TextButton(onClick = { navController.navigate("sign-in") }) {
+                    Text(
+                        text = "SIGN IN",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
