@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +25,7 @@ import com.probuildx.constructechapp.entities.Project
 import com.probuildx.constructechapp.viewmodels.ProjectsViewModel
 import com.probuildx.constructechapp.views.shared.BottomNavigationBar
 
+@ExperimentalMaterial3Api
 @Composable
 fun ProjectProfileScreen(navController: NavController, projectId: Int, projectsVm: ProjectsViewModel = viewModel()) {
     val project by projectsVm.project.collectAsState()
@@ -51,36 +54,83 @@ fun ProjectProfileScreen(navController: NavController, projectId: Int, projectsV
 
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun ProjectProfile(navController: NavController, project: Project, projectsVm: ProjectsViewModel = viewModel()) {
-    //TODO: mejorar interfaz
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        // Name
-        Text(text = "Title: ${project.title} ")
-        Text(text = "Description: ${project.description} ")
-        Text(text = "Address: ${project.address} ")
-        Text(text = "Date: ${project.date} ")
-        Text(text = "Budget: ${project.budget} ")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Project Profile") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFF5F5F5))
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Project Details Card
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = CardDefaults.cardElevation(6.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = project.title,
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = Color(0xFF333333)
+                        )
+                        Text(
+                            text = "Description: ${project.description}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color(0xFF666666)
+                        )
+                        Text(
+                            text = "Address: ${project.address}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color(0xFF666666)
+                        )
+                        Text(
+                            text = "Date: ${project.date}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color(0xFF666666)
+                        )
+                        Text(
+                            text = "Budget: ${project.budget}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color(0xFF666666)
+                        )
+                    }
+                }
 
-        Button(
-            onClick = {
-                projectsVm.delete(project.id!!)
-                navController.navigate("user-dashboard/${project.userId}")
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107))
-        ) {
-            Text(text = "Delete", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                // Delete Button
+                Button(
+                    onClick = {
+                        projectsVm.delete(project.id!!)
+                        navController.navigate("user-dashboard/${project.userId}")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    shape = RoundedCornerShape(50)
+                ) {
+                    Text(text = "Delete Project", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.White)
+                }
+            }
         }
-
-    }
-
+    )
 }
