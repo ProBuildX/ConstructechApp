@@ -121,7 +121,6 @@ fun Materials(navController: NavController, project: Project, materials: List<Ma
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
                     shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                 ) {
                     Text(
                         text = "Add New Material",

@@ -118,7 +118,6 @@ fun Machinery(navController: NavController, project: Project, machines: List<Mac
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
                     shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
                 ) {
                     Text(
                         text = "Add New Machine",
