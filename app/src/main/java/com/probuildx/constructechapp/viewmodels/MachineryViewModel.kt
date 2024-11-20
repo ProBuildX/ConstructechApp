@@ -26,7 +26,7 @@ class MachineryViewModel: ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                delay(500)
+                //delay(500)
                 val response = RetrofitClient.machineryService.getByProject(projectId)
                 _machines.value = response
             }
@@ -38,7 +38,7 @@ class MachineryViewModel: ViewModel() {
     fun getById(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 val response = RetrofitClient.machineryService.getById(id)
                 _machine.value = response
@@ -51,7 +51,7 @@ class MachineryViewModel: ViewModel() {
     fun create(machine: Machine) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.machineryService.create(machine)
             }
@@ -63,7 +63,7 @@ class MachineryViewModel: ViewModel() {
     fun delete(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.machineryService.delete(id)
             }

@@ -26,7 +26,7 @@ class TeamsViewModel: ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                delay(500)
+                //delay(500)
                 val response = RetrofitClient.teamsService.getByProject(projectId)
                 _teams.value = response
             }
@@ -38,7 +38,7 @@ class TeamsViewModel: ViewModel() {
     fun getById(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 val response = RetrofitClient.teamsService.getById(id)
                 _team.value = response
@@ -51,7 +51,7 @@ class TeamsViewModel: ViewModel() {
     fun create(team: Team) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.teamsService.create(team)
             }
@@ -63,7 +63,7 @@ class TeamsViewModel: ViewModel() {
     fun delete(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.teamsService.delete(id)
             }

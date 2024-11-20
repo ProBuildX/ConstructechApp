@@ -26,7 +26,7 @@ class MaterialsViewModel: ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                delay(500)
+                //delay(500)
                 val response = RetrofitClient.materialsService.getByProject(projectId)
                 _materials.value = response
             }
@@ -38,7 +38,7 @@ class MaterialsViewModel: ViewModel() {
     fun getById(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 val response = RetrofitClient.materialsService.getById(id)
                 _material.value = response
@@ -51,7 +51,7 @@ class MaterialsViewModel: ViewModel() {
     fun create(material: Material) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.materialsService.create(material)
             }
@@ -63,7 +63,7 @@ class MaterialsViewModel: ViewModel() {
     fun delete(id: Int) {
         _isLoading.value = true
         viewModelScope.launch {
-            delay(500)
+            //delay(500)
             try {
                 RetrofitClient.materialsService.delete(id)
             }
